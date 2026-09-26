@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ультимативный гайд по CoreProtect | СПм Детектив</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f1117;
+      --bg-card: #181b23;
+      --bg-code: #0b0c10;
+      --accent: #5865f2;
+      --accent-hover: #4752c4;
+      --accent-gold: #f1c40f;
+      --danger: #e74c3c;
+      --text-main: #e1e3e8;
+      --text-muted: #8b92a5;
+      --border: #282d3c;
+      --sidebar-width: 280px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      display: flex;
+    }
+
+    /* Боковое меню */
+    aside {
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0;
+      left: 0;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    aside .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    aside .logo span {
+      color: var(--accent);
+    }
+
+    nav ul {
+      list-style: none;
+    }
+
+    nav li {
+      margin-bottom: 8px;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: block;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    nav a:hover, nav a.active {
+      background: rgba(88, 101, 242, 0.15);
+      color: #fff;
+    }
+
+    /* Основной контент */
+    main {
+      margin-left: var(--sidebar-width);
+      padding: 40px var(--sidebar-width) 60px 40px;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    header {
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .authors {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .authors strong {
+      color: var(--accent-gold);
+    }
+
+    section {
+      margin-bottom: 50px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 5px;
+      display: inline-block;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      color: #fff;
+      margin: 20px 0 10px 0;
+    }
+
+    p {
+      margin-bottom: 15px;
+      color: var(--text-main);
+    }
+
+    /* Стиль для команд и кода */
+    code, pre {
+      font-family: 'Fira Code', monospace;
+    }
+
+    pre {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      padding: 14px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 15px 0;
+      color: #4af626;
+      font-size: 0.9rem;
+    }
+
+    code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #f1c40f;
+      font-size: 0.9em;
+    }
+
+    /* Карточки / Блоки примечаний */
+    .note {
+      background: rgba(88, 101, 242, 0.1);
+      border-left: 4px solid var(--accent);
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+    }
+
+    .warning {
+      background: rgba(231, 76, 60, 0.1);
+      border-left: 4px solid var(--danger);
+      padding: 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    a.external-link {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a.external-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Чекбокс/кнопки скопировать */
+    .cmd-box {
+      position: relative;
+    }
+
+    @media (max-width: 900px) {
+      aside {
+        display: none;
+      }
+      main {
+        margin-left: 0;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Боковая навигация -->
+  <aside>
+    <div class="logo">🔍 СПм <span>Детектив</span></div>
+    <nav>
+      <ul>
+        <li><a href="#base">Базовые команды</a></li>
+        <li><a href="#lookup">Команда LookUp</a></li>
+        <li><a href="#params">Параметры LookUp</a></li>
+        <li><a href="#hashtags">Хэштеги</a></li>
+        <li><a href="#unlogged">Что НЕ отображается</a></li>
+        <li><a href="#cases">Неординарные случаи</a></li>
+        <li><a href="#watson">WatsonMod</a></li>
+        <li><a href="#links">Доп. материалы</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Основное содержимое -->
+  <main>
+    <header>
+      <h1>Ультимативный гайд по CoreProtect</h1>
+      <p class="authors">Авторы: <strong>Евген Крысов (CyberKpblsa)</strong> | Обновлено: <strong>kroneblanche</strong>, <strong>_INFERNA</strong></p>
+    </header>
+
+    <!-- Раздел 1: Базовые команды -->
+    <section id="base">
+      <h2>1. Базовые команды</h2>
+      <p>На сервере в роли детектива вам доступны следующие базовые команды:</p>
+      
+      <pre>/coreprotect inspect</pre>
+      <p>Вызывает режим инспектора. После активации:</p>
+      <ul>
+        <li><strong>ЛКМ по блоку</strong> — покажет логи этого блока.</li>
+        <li><strong>ПКМ по блоку</strong> — покажет логи блока, стоящего <i>над ним</i>, даже если физически он уже сломан.</li>
+      </ul>
+
+      <div class="note">
+        <strong>💡 Интерфейс:</strong> Если навести курсором на время в чате логов, отобразится точная дата до секунд.
+      </div>
+
+      <pre>/coreprotect near</pre>
+      <p>Показывает логи всех типов в радиусе пяти блоков.</p>
+      <div class="warning">
+        <strong>⚠️ Внимание:</strong> Использование команды <code>/co near</code> во время проверки детективов карается баном!
+      </div>
+    </section>
+
+    <!-- Раздел 2: LookUp -->
+    <section id="lookup">
+      <h2>2. Команда LookUp</h2>
+      <p>Главный инструмент детектива. Позволяет с помощью набора параметров узнать детальную информацию о действиях, предметах и блоках.</p>
+      <pre>/coreprotect lookup [параметр1] [параметр2] ...</pre>
+    </section>
+
+    <!-- Раздел 3: Параметры -->
+    <section id="params">
+      <h2>3. Параметры команды LookUp</h2>
+
+      <h3>3.1. Действие — <code>a:&lt;action&gt;</code></h3>
+      <p>Уточняет, что именно произошло с объектом:</p>
+      <ul>
+        <li><code>a:block</code> — разрушение и поставление блоков (<code>-block</code> только разрушение, <code>+block</code> только поставление).</li>
+        <li><code>a:container</code> — взаимодействия с контейнерами (сундуки, бочки, шалкеры, печки, воронки, рамки, стойки для брони). <br><i>*Исключение: Эндер-сундуки и энтити не логируются.</i></li>
+        <li><code>a:inventory</code> — добавление/изъятие из инвентаря игрока или раздатчика/диспенсера.</li>
+        <li><code>a:item</code> — выброшенные (<code>dropped</code>), подобранные (<code>picked up</code>) или брошенные предметы (стрелы, зелья, снежки).</li>
+        <li><code>a:session</code> — входы (<code>+session</code>) и выходы (<code>-session</code>) игрока.</li>
+        <li><code>a:click</code> — клики ПКМ по взаимодействуемым блокам.</li>
+        <li><code>a:kill</code> — убийство игроков и мобов.</li>
+        <li><code>a:chat</code> — история сообщений в чате (глобальный поиск).</li>
+        <li><code>a:sign</code> — логи надписей на табличках.</li>
+      </ul>
+
+      <h3>3.2. Время — <code>t:&lt;time&gt;</code></h3>
+      <p>Задает временной диапазон поиска: <code>s</code> (секунды), <code>m</code> (минуты), <code>h</code> (часы), <code>d</code> (дни), <code>w</code> (недели).</p>
+      <pre>/co lookup t:1d 12h r:10</pre>
+
+      <h3>3.3. Радиус — <code>r:&lt;radius&gt;</code></h3>
+      <p>Задает сферу поиска вокруг игрока. На СПм установлено ограничение <strong>максимум 100 блоков</strong>.</p>
+
+      <h3>3.4. Фильтры пользователей и блоков</h3>
+      <ul>
+        <li><code>u:&lt;user&gt;</code> — поиск по игроку.</li>
+        <li><code>i:&lt;include&gt;</code> — включить только конкретный блок/предмет (например, <code>i:tnt</code>).</li>
+        <li><code>e:&lt;exclude&gt;</code> — исключить блоки или игроков (например, <code>e:stone,CyberKpblsa</code>).</li>
+        <li><code>1:&lt;number&gt;</code> — пагинация (например, <code>/co lookup 1:30</code> для вывода 30 логов на страницу).</li>
+      </ul>
+    </section>
+
+    <!-- Раздел 4: Хэштеги -->
+    <section id="hashtags">
+      <h2>4. Хэштеги</h2>
+      <p>Специальные маркеры для событий без прямого участия игрока:</p>
+      <ul>
+        <li><code>#vine</code> — рост лиан.</li>
+        <li><code>#fire</code> — распространение огня.</li>
+        <li><code>#count</code> — показывает общее количество результатов.</li>
+        <li>Указание миров: <code>#world</code>, <code>#world_nether</code>, <code>#world_end</code>, <code>#global</code>.</li>
+      </ul>
+      <div class="note">
+        <strong>🔥 Пример поиска поджигателя:</strong><br>
+         Чтобы исключить естественное распространение огня, используйте:
+        <pre>/co lookup a:+block include:fire exclude:#fire t:10h r:40</pre>
+      </div>
+    </section>
+
+    <!-- Раздел 5: Что не отображается -->
+    <section id="unlogged">
+      <h2>5. Что НЕ отображается в логах</h2>
+      <p>CoreProtect имеет ряд ограничений, о которых важно помнить во время расследования:</p>
+      <ul>
+        <li>Действия с энтити напрямую (посадка/поломка лодок, вагонеток).</li>
+        <li>Смена эффектов маяка.</li>
+        <li>Перемещение мобов/предметов удочкой.</li>
+        <li>Нажатие на любые нажимные плиты, компасом по магнетиту или клики по кровати.</li>
+        <li>Взрыв Якоря Возрождения (видимо только кто его поставил).</li>
+        <li>Забор рыбы/жаб ведрами.</li>
+      </ul>
+    </section>
+
+    <!-- Раздел 6: Неординарные случаи -->
+    <section id="cases">
+      <h2>6. Неординарные случаи</h2>
+      
+      <h3>🛒 1. Воровство воронками / вагонетками</h3>
+      <p>Вагонетка с воронкой — это энтити, ее действия не логируются. Ищите, кто ставил рельсы неподалеку:</p>
+      <pre>/co lookup a:+block include:rail,powered_rail,detector_rail,activator_rail r:50 t:1d</pre>
+
+      <h3>📦 2. Воровство из шалкеров</h3>
+      <p>При сломе и перемещении шалкера его логи на новом месте очищаются. <br>
+      <strong>Решение:</strong> Узнайте первоначальное место шалкера, поставьте туда любой сундук/шалкер и пропишите <code>/co inspect</code> по нему.</p>
+
+      <h3>💎 3. Работа с Кристаллами Энда</h3>
+      <p>Постановка/слом кристалла игроком обозначается как <code>end_crystal</code>. Смерть от него — как <code>#ender_crystal</code>. Уничтоженные кристаллом вещи в логах <strong>не отображаются</strong>.</p>
+    </section>
+
+    <!-- Раздел 7: WatsonMod -->
+    <section id="watson">
+      <h2>7. WatsonMod</h2>
+      <p>Визуализирует векторные запросы <code>/co inspect</code>, <code>/co lookup</code> и <code>/co near</code> прямо в игре (3D подсвечивание). Крайне рекомендуется для удобства работы. Работает на Fabric.</p>
+    </section>
+
+    <!-- Раздел 8: Ссылки -->
+    <section id="links">
+      <h2>8. Дополнительные материалы</h2>
+      <ul>
+        <li><a class="external-link" href="https://docs.coreprotect.net/commands/" target="_blank">Официальная документация CoreProtect</a></li>
+        <li><a class="external-link" href="https://www.digminecraft.com/lists/entity_list_pc.php" target="_blank">Список энтити Minecraft 1.21</a></li>
+        <li><a class="external-link" href="https://drive.google.com/drive/folders/1Tw-99mppQEdkMdpC5KZ8_eLrL6cxmT8a?usp=sharing" target="_blank">Скачать Watson + конфиг (Google Drive)</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    // Подсветка активного пункта меню при прокрутке
+    const sections = document.querySelectorAll("section");
+    const navLi = document.querySelectorAll("nav ul li a");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        if (pageYOffset >= sectionTop - 100) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLi.forEach((a) => {
+        a.classList.remove("active");
+        if (a.getAttribute("href").includes(current)) {
+          a.classList.add("active");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
